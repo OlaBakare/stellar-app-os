@@ -1,0 +1,1 @@
+export { CertificateTiltCard } from './CertificateTiltCard';

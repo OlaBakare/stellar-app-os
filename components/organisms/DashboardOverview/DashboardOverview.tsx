@@ -6,10 +6,10 @@ import { useUserDashboard } from '@/hooks/useUserDashboard';
 import { StatCard, StatCardSkeleton } from './StatCard';
 import { RecentActivity, RecentActivitySkeleton } from './RecentActivity';
 import { QuickActions } from './QuickActions';
+import { CertificateTiltCard } from '@/components/molecules/CertificateTiltCard';
 import { AnalyticsWidget, type ChartDataPoint } from '@/components/AnalyticsWidget';
 import { Text } from '@/components/atoms/Text';
-import { Button } from '@/components/atoms/Button';
-import { Heart, Coins, Wind, Zap, Download } from 'lucide-react';
+import { Heart, Coins, Wind, Zap } from 'lucide-react';
 import { generateCertificatePdf } from '@/lib/certificate';
 
 import { PlatformImpact } from './PlatformImpact';
@@ -227,7 +227,15 @@ export function DashboardOverview() {
             />
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <CertificateTiltCard
+            co2OffsetTonnes={Number(((data?.stats.totalCO2OffsetKg ?? 0) / 1000).toFixed(2))}
+            treeCount={data?.stats.totalDonationsTrees ?? 0}
+            onDownload={handleCertificateDownload}
+            isGenerating={isCertificateGenerating}
+            error={certificateDownloadError}
+          />
+          {false && (
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
             <div className="mb-6 space-y-3">
               <Text variant="h3" className="text-xl font-semibold">
                 Download Certificate
@@ -271,7 +279,8 @@ export function DashboardOverview() {
                 {certificateDownloadError}
               </Text>
             )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
     </div>
